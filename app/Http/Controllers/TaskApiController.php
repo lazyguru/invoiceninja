@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\Client;
+use App\Models\Project;
 use App\Models\Task;
 use App\Ninja\Repositories\TaskRepository;
 use App\Ninja\Transformers\TaskTransformer;
@@ -108,6 +110,12 @@ class TaskApiController extends BaseAPIController
 
         if (isset($data['client_id']) && $data['client_id']) {
             $data['client'] = $data['client_id'];
+        }
+        if (isset($data['client_name']) && $data['client_name']) {
+            /** @var Client $client */
+            $client = Client::where('name', $data['client_name'])->first();
+            $data['client'] = $client->getId();
+            $data['project_id'] = Project::where('client_id', $client->getId())->first()->getId();
         }
 
         $task = $this->taskRepo->save($taskId, $data);
