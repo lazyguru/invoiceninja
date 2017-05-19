@@ -50,6 +50,8 @@ class ClientApiController extends BaseAPIController
             $clients = $clients->whereHas('contacts', function ($query) use ($email) {
                 $query->where('email', $email);
             });
+        } elseif ($name = Input::get('name')) {
+            $clients = $clients->where('name', $name);
         } elseif ($idNumber = Input::get('id_number')) {
             $clients = $clients->whereIdNumber($idNumber);
         }
