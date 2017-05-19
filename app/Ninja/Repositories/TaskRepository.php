@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use Auth;
+use Carbon\Carbon;
 use Session;
 use DB;
 use Utils;
@@ -185,6 +186,19 @@ class TaskRepository extends BaseRepository
             $timeLog = json_decode($task->time_log);
         } else {
             $timeLog = [];
+        }
+
+        if(isset($data['client_id'])) {
+            $task->client_id = Client::getPrivateId($data['client_id']);
+        }
+
+        if (isset($data['start_time'])) {
+            $startTime = new Carbon($data['start_time']);
+            $endTime = new Carbon($data['end_time']);
+            $timeLog = [
+                $startTime->getTimestamp(),
+                $endTime->getTimestamp()
+            ];
         }
 
         array_multisort($timeLog);
