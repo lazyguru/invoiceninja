@@ -195,10 +195,10 @@ class TaskRepository extends BaseRepository
         if (isset($data['start_time'])) {
             $startTime = new Carbon($data['start_time']);
             $endTime = new Carbon($data['end_time']);
-            $timeLog = [
+            $timeLog = [[
                 $startTime->getTimestamp(),
                 $endTime->getTimestamp()
-            ];
+            ]];
         }
 
         array_multisort($timeLog);
