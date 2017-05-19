@@ -114,8 +114,8 @@ class TaskApiController extends BaseAPIController
         if (isset($data['client_name']) && $data['client_name']) {
             /** @var Client $client */
             $client = Client::where('name', $data['client_name'])->first();
-            $data['client'] = $client->getId();
-            $data['project_id'] = Project::where('client_id', $client->getId())->first()->getId();
+            $data['client'] = $client->id;
+            $data['project_id'] = Project::where('client_id', $client->id)->first()->id;
         }
 
         $task = $this->taskRepo->save($taskId, $data);
